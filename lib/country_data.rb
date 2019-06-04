@@ -17,6 +17,8 @@ class CountryData
   end
 
   def self.european_countries
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE continent = 'Europe'")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_data_sorted_by_population_increasing_order
