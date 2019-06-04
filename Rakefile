@@ -31,3 +31,4 @@ task :seed_db do
   connection.exec ("INSERT INTO countries VALUES (18, 'India', 'Asia', 1339, 450, 1790);")
   connection.exec ("INSERT INTO countries VALUES (19, 'Afghanistan', 'Asia', 36, 54, 560);")
   connection.exec ("INSERT INTO countries VALUES (20, 'USA', 'North America', 325, 36, 59160);")
+end

@@ -17,35 +17,43 @@ class CountryData
   end
 
   def self.european_countries
-    result = DatabaseConnection.query("SELECT * FROM countries WHERE continent = 'Europe'")
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE continent = 'Europe';")
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_data_sorted_by_population_increasing_order
-    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population')
+    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population;')
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_data_sorted_by_population_decreasing_order
-    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population DESC')
+    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population DESC;')
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_greater_than_100_million
-    result = DatabaseConnection.query('SELECT * FROM countries WHERE population>100000000')
+    result = DatabaseConnection.query('SELECT * FROM countries WHERE population>100;')
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_less_than_20_million
+    result = DatabaseConnection.query('SELECT * FROM countries WHERE population<20;')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_density_between_50_and_150
+    result = DatabaseConnection.query('SELECT * FROM countries WHERE population BETWEEN 50 AND 150;')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.highest_gni_per_capita_in_asia
+    result = DatabaseConnection.query('SELECT MAX(gni) FROM countries')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.third_lowest_gni_per_capita_in_south_america
+    result = DatabaseConnection.query("SELECT MIN(gni) FROM countries WHERE continent = 'South America' AND gni NOT IN (SELECT DISTINCT TOP 2 gni FROM countries ORDER BY gni);")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_countries_not_in_europe
