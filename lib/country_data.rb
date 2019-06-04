@@ -12,7 +12,7 @@ class CountryData
   end
 
   def self.all
-    result = DatabaseConnection.query('SELECT * FROM countries')
+    result = DatabaseConnection.query('SELECT * FROM countries;')
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
@@ -22,14 +22,18 @@ class CountryData
   end
 
   def self.all_data_sorted_by_population_increasing_order
-    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population ASC')
+    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population')
     result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_data_sorted_by_population_decreasing_order
+    result = DatabaseConnection.query('SELECT * FROM countries ORDER BY population DESC')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_greater_than_100_million
+    result = DatabaseConnection.query('SELECT * FROM countries WHERE population>100000000')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.population_less_than_20_million
@@ -45,14 +49,22 @@ class CountryData
   end
 
   def self.all_countries_not_in_europe
+    result = DatabaseConnection.query("SELECT * FROM countries WHERE NOT continent = 'Europe'")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.all_data_country_name_and_population_only
+    result = DatabaseConnection.query('SELECT name, population FROM countries')
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.south_american_countries_hide_population
+    result = DatabaseConnection.query("SELECT name, continent, density, gni FROM countries WHERE continent = 'South America'")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 
   def self.countries_not_in_asia_hide_gni_per_capita_and_population_density
+    result = DatabaseConnection.query("SELECT name, continent, population FROM countries WHERE NOT continent = 'Asia'")
+    result.map{ |country| CountryData.new(country['name'], country['continent'], country['population'], country['density'], country['gni']) }
   end
 end
